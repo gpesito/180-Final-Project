@@ -1,0 +1,192 @@
+# CS180 Interface for Product class - Milica
+
+package com.marketplace.interfaces;
+
+public interface IProduct {
+    void createListing();
+    void deleteListing();
+    void updateListing();
+    void uploadImage(String imageURL);
+}
+
+# CS180 Product class - Milica
+package com.marketplace.models;
+
+import com.marketplace.interfaces.IProduct;
+
+public class Product implements IProduct {
+    private String productID;
+    private String name;
+    private String description;
+    private double price;
+    private String sellerID;
+    private String category;
+    private String imageURL;
+
+    public Product(String productID, String name, String description, double price, String sellerID, String category) {
+        this.productID = productID;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.sellerID = sellerID;
+        this.category = category;
+        this.imageURL = "";
+    }
+
+    public void createListing() {
+        System.out.println("Product listing created.");
+    }
+
+    public void deleteListing() {
+        System.out.println("Product listing deleted.");
+    }
+
+    public void updateListing() {
+        System.out.println("Product listing updated.");
+    }
+
+    public void uploadImage(String imageURL) {
+        this.imageURL = imageURL;
+    }
+}
+
+# JUnit Test cases - Milica
+
+package com.marketplace.tests;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import com.marketplace.models.Product;
+
+public class ProductTest {
+    private Product product;
+
+    @BeforeEach
+    void setUp() {
+        product = new Product("P123", "Laptop", "Gaming Laptop", 1299.99, "S456", "Electronics");
+    }
+
+    @Test
+    void testProductInitialization() {
+        assertEquals("P123", product.getProductID());
+        assertEquals("Laptop", product.getName());
+        assertEquals("Gaming Laptop", product.getDescription());
+        assertEquals(1299.99, product.getPrice(), 0.001);
+        assertEquals("S456", product.getSellerID());
+        assertEquals("Electronics", product.getCategory());
+        assertEquals("", product.getImageURL());
+    }
+
+    @Test
+    void testUploadImage() {
+        product.uploadImage("http://example.com/image.jpg");
+        assertEquals("http://example.com/image.jpg", product.getImageURL());
+    }
+
+    @Test
+    void testCreateListing() {
+        // Just verifying that the method exists, as it prints output
+        assertDoesNotThrow(() -> product.createListing());
+    }
+
+    @Test
+    void testDeleteListing() {
+        assertDoesNotThrow(() -> product.deleteListing());
+    }
+
+    @Test
+    void testUpdateListing() {
+        assertDoesNotThrow(() -> product.updateListing());
+    }
+}
+
+# CS180 Interface for ProductService class - Milica
+
+package com.marketplace.interfaces;
+
+import java.util.List;
+
+public interface IProductService {
+    void addProduct(String productID, String name, String description, double price, String sellerID, String category);
+    void deleteProduct(String productID);
+    List<Product> searchProducts(String keyword);
+    List<Product> searchByCategory(String category);
+}
+
+# ProductServeice class - Milica
+
+package com.marketplace.server;
+
+import com.marketplace.models.Product;
+import com.marketplace.interfaces.IProductService;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ProductService implements IProductService {
+    private Map<String, Product> products;
+
+    public ProductService() {
+        products = new HashMap<>();
+    }
+
+    public void addProduct(String productID, String name, String description, double price, String sellerID, String category) {
+        Product product = new Product(productID, name, description, price, sellerID, category);
+        products.put(productID, product);
+    }
+
+    public void deleteProduct(String productID) {
+        products.remove(productID);
+    }
+
+    public List<Product> searchProducts(String keyword) {
+        return new ArrayList<>(products.values());  // For now, returning all products
+    }
+
+    public List<Product> searchByCategory(String category) {
+        return new ArrayList<>(products.values());
+    }
+}
+
+# JUnit Test for ProductService - Milica
+
+package com.marketplace.tests;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import com.marketplace.server.ProductService;
+import com.marketplace.models.Product;
+import java.util.List;
+
+public class ProductServiceTest {
+    private ProductService productService;
+
+    @BeforeEach
+    void setUp() {
+        productService = new ProductService();
+        productService.addProduct("P123", "Laptop", "High-end gaming laptop", 1200.99, "S001", "Electronics");
+        productService.addProduct("P124", "Smartphone", "Latest model smartphone", 799.49, "S002", "Electronics");
+    }
+
+    @Test
+    void testAddProduct() {
+        productService.addProduct("P125", "Tablet", "Lightweight tablet", 499.99, "S003", "Electronics");
+        List<Product> products = productService.searchProducts(""); // Returns all products
+        assertEquals(3, products.size());
+    }
+
+    @Test
+    void testDeleteProduct() {
+        productService.deleteProduct("P123");
+        List<Product> products = productService.searchProducts("");
+        assertEquals(1, products.size());
+    }
+
+    @Test
+    void testSearchByCategory() {
+        List<Product> electronics = productService.searchByCategory("Electronics");
+        assertEquals(2, electronics.size());
+    }
+}
