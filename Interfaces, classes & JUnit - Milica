@@ -1,4 +1,4 @@
-# CS180 Interface for Product class - Milica
+// CS180 Interface for Product class - Milica
 
 package com.marketplace.interfaces;
 
@@ -9,7 +9,7 @@ public interface IProduct {
     void uploadImage(String imageURL);
 }
 
-# CS180 Product class - Milica
+// CS180 Product class - Milica
 package com.marketplace.models;
 
 import com.marketplace.interfaces.IProduct;
@@ -50,7 +50,7 @@ public class Product implements IProduct {
     }
 }
 
-# JUnit Test cases - Milica
+// JUnit Test cases - Milica
 
 package com.marketplace.tests;
 
@@ -114,7 +114,7 @@ public interface IProductService {
     List<Product> searchByCategory(String category);
 }
 
-# ProductServeice class - Milica
+// ProductService class - Milica
 
 package com.marketplace.server;
 
