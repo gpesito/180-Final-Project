@@ -1,34 +1,45 @@
-package com.marketplace.server;
-
-import com.marketplace.models.Product;
-import com.marketplace.interfaces.IProductService;
-
-import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
-import java.util.List;   
-import java.util.ArrayList;   
+import java.util.HashMap;
 
-public class ProductService implements IProductService {
+public class ProductService {
     private Map<String, Product> products;
 
     public ProductService() {
         products = new HashMap<>();
     }
 
-    public void addProduct(String productID, String name, String description, double price, String sellerID, String category) {
-        Product product = new Product(productID, name, description, price, sellerID, category);
+    // Add product
+    public void addProduct(String productID, String name, String description, double price, String category) {
+        Product product = new Product(productID, name, description, price, category);
         products.put(productID, product);
     }
 
+    // Delete product
     public void deleteProduct(String productID) {
         products.remove(productID);
     }
 
-    public List<Product> searchProducts(String keyword) {
-        return new ArrayList<>(products.values());  
+    // Search products by category
+    public List<Product> searchByCategory(String category) {
+        List<Product> result = new ArrayList<>();
+        for (Product product : products.values()) {
+            if (product.getCategory().equals(category)) {
+                result.add(product);
+            }
+        }
+        return result;
     }
 
-    public List<Product> searchByCategory(String category) {
-        return new ArrayList<>(products.values());
+    // Search products by keyword
+    public List<Product> searchProducts(String keyword) {
+        List<Product> result = new ArrayList<>();
+        for (Product product : products.values()) {
+            if (product.getName().contains(keyword) || product.getDescription().contains(keyword)) {
+                result.add(product);
+            }
+        }
+        return result;
     }
 }
