@@ -5,6 +5,8 @@ import com.marketplace.interfaces.IProductService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;   
+import java.util.ArrayList;   
 
 public class ProductService implements IProductService {
     private Map<String, Product> products;
@@ -23,7 +25,7 @@ public class ProductService implements IProductService {
     }
 
     public List<Product> searchProducts(String keyword) {
-        return new ArrayList<>(products.values());  // For now, returning all products
+        return new ArrayList<>(products.values());  
     }
 
     public List<Product> searchByCategory(String category) {
