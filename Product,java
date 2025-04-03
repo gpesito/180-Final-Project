@@ -1,40 +1,38 @@
 // CS180 Product class - Milica
-package com.marketplace.models;
 
-import com.marketplace.interfaces.IProduct;
-
-public class Product implements IProduct {
+public class Product {
     private String productID;
     private String name;
     private String description;
     private double price;
-    private String sellerID;
     private String category;
-    private String imageURL;
 
-    public Product(String productID, String name, String description, double price, String sellerID, String category) {
+    public Product(String productID, String name, String description, double price, String category) {
         this.productID = productID;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.sellerID = sellerID;
         this.category = category;
-        this.imageURL = "";
     }
 
-    public void createListing() {
-        System.out.println("Product listing created.");
+    // Getters and setters
+    public String getProductID() {
+        return productID;
     }
 
-    public void deleteListing() {
-        System.out.println("Product listing deleted.");
+    public String getName() {
+        return name;
     }
 
-    public void updateListing() {
-        System.out.println("Product listing updated.");
+    public String getDescription() {
+        return description;
     }
 
-    public void uploadImage(String imageURL) {
-        this.imageURL = imageURL;
+    public double getPrice() {
+        return price;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }
