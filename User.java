@@ -68,7 +68,7 @@ public class User implements UserInterface {
     }
     @Override
     public void updateBalance(double amount) {
-        this.balance += amount;
+        this.balance = amount;
     }
     @Override
     public boolean login(String username, String password) {
