@@ -46,7 +46,7 @@ public class Transaction implements TransactionInterface {
 
     @Override
     // Method to process the payment
-    public void processPayment() {
+    public void processPayment(User buyer, User seller, double amount) {
         if (buyer.getBalance() >= amount) {
             // Deduct the amount from the buyer's balance and add it to the seller's balance
             double buyerNewBalance = buyer.getBalance() - amount;

@@ -7,5 +7,5 @@ public interface TransactionInterface {
     double getAmount();
     void setAmount(double amount);
     
-    void processPayment();
+    void processPayment(User buyer, User seller, double amount);
 }
