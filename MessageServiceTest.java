@@ -2,6 +2,13 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
+/**
+ * Test cases for the MessageService class that initializes a new MessageService object and tests its methods.
+ * 
+ * Purdue Unversity -- CS180 -- Spring 2025 -- Team Project 
+ * @author Savir Patil
+ * @version April 6, 2025
+ */
 public class MessageServiceTest {
     public MessageService messageService;
 
