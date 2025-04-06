@@ -11,7 +11,7 @@ import services.*; //imports our other service classes
  */
 
 
-
+//Help handle user, product, transaction and messages
 public class MarketplaceServer implements IMarketplaceServer {
     public UserService users;
     public ProductService products;
@@ -25,7 +25,7 @@ public class MarketplaceServer implements IMarketplaceServer {
         this.messages = m;
     }
 
-  
+  //creates new user
     @Override
     public boolean registerUser(String username, String email, String password) {
         return users.register(username, email, password);
