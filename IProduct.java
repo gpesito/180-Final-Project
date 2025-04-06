@@ -1,4 +1,11 @@
-//CS180 Interface for Product class - Milica
+/**
+ * Interface that defines the structure for class Product
+ *
+ * <p>Purdue University -- CS18000 -- Spring 2025</p>
+ *
+ * @author Milica Slavkovic
+ * @version April 6, 2025
+ */
 
 public interface IProduct {
     String getProductID();
