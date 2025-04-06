@@ -1,4 +1,11 @@
-// CS180 Product class - Milica
+/**
+ * This class represents a product in an inventory
+ *
+ * <p>Purdue University -- CS18000 -- Spring 2025</p>
+ *
+ * @author Milica Slavkovic
+ * @version April 6, 2025
+ */
 
 public class Product {
     private String productID; // Unique identifier for the product
