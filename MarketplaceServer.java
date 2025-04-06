@@ -1,6 +1,8 @@
 package server;
+//MarketplaceServer class - Jay
 
-import services.*;
+
+import services.*; //imports our other service classes
 
 public class MarketplaceServer {
     public UserService users;
