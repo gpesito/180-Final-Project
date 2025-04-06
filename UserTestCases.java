@@ -75,11 +75,15 @@ public class UserTestCases {
     }
   
     @Test
-    public void testUserServiceRegister() {
+    public void testUserServiceRegisterAndRetrieve() {
         System.out.println("Testing user registration and retrieval...");
         UserService service = new UserService();
         User user = new User("U1", "Alice", "alice@example.com", "password123");
         assertTrue(service.registerUser(user), "User should be registered successfully");
+        
+        UserInterface retrieved = service.getUserById("U1");
+        assertNotNull(retrieved, "Retrieved user should not be null");
+        assertEquals("Alice", retrieved.getUsername(), "Retrieved user's username should match");
     }
     
     @Test
