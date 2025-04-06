@@ -1,5 +1,6 @@
 import server.MarketplaceServer;
-import services.*;
+import services.*; //imports our service classes
+//Client class - Jay
 
 public class Client {
     public static void main(String[] args) {
@@ -9,6 +10,6 @@ public class Client {
                 new TransactionService(),
                 new MessageService()
         );
-
+//This helps the server to be ready for interactions
     }
 }
