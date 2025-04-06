@@ -1,15 +1,34 @@
 import server.MarketplaceServer;
 import services.*; //imports our service classes
-//Client class - Jay
+/**
+ * This is the Client class.
+ *
+ * <p>Purdue University -- CS18000 -- Spring 2025 -- Team Project
+ *
+ * @author Jay Saini Purdue CS
+ * @version April 6, 2025
+ */
 
-public class Client {
+public class Client implements IClient {
+    private final MarketplaceServer server;
+
+    public Client(MarketplaceServer server) {
+        this.server = server;
+    }
+
+    @Override
+    public void start() {
+        
+        System.out.println("Starting");
+    }
+
     public static void main(String[] args) {
         MarketplaceServer server = new MarketplaceServer(
-                new UserService(),
-                new ProductService(),
-                new TransactionService(),
-                new MessageService()
+            new UserService(),
+            new ProductService(),
+            new TransactionService(),
+            new MessageService()
         );
-//This helps the server to be ready for interactions
+        new Client(server).start();
     }
 }
