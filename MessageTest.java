@@ -1,6 +1,12 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
-
+/**
+ * Test cases for the Message class that tests its methods and ensures the correct values for each field are returned.
+ * 
+ * Purdue Unversity -- CS180 -- Spring 2025 -- Team Project 
+ * @author Savir Patil
+ * @version April 6, 2025
+ */
 public class MessageTest {
     @ Test
     public void testNewMessage() {
