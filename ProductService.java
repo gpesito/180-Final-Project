@@ -3,6 +3,15 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * This class managies a collection of products
+ *
+ * <p>Purdue University -- CS18000 -- Spring 2025</p>
+ *
+ * @author Milica Slavkovic
+ * @version April 6, 2025
+ */
+
 public class ProductService {
     private Map<String, Product> products; // A map to store products using productID as the key
     
