@@ -3,6 +3,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
+/**
+ * Unit tests for the ProductService class to verify adding, deleting, and searching products works as expected
+ *
+ * <p>Purdue University -- CS18000 -- Spring 2025</p>
+ *
+ * @author Milica Slavkovic
+ * @version April 6, 2025
+ */
+
 public class ProductServiceTest {
 
     private ProductService productService;
