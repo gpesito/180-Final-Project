@@ -1,12 +1,13 @@
 // CS180 Product class - Milica
 
 public class Product {
-    private String productID;
-    private String name;
-    private String description;
-    private double price;
-    private String category;
-
+    private String productID; // Unique identifier for the product
+    private String name; // Name of the product
+    private String description; // Detailed description of the product
+    private double price; // Price of the product
+    private String category; // Category to which the product belongs
+    
+// Constructor to initialize all fields of the Product
     public Product(String productID, String name, String description, double price, String category) {
         this.productID = productID;
         this.name = name;
