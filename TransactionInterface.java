@@ -1,6 +1,6 @@
 public interface TransactionInterface {
     /**
-     * Gabby
+     * Gabby Pesito
      */
     User getBuyer();
     void setBuyer(User buyer);
