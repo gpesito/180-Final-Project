@@ -1,7 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
+/**
+ * Gabby Pesito
+ */
 public class TransactionServiceTest {
 
     private User buyer;
