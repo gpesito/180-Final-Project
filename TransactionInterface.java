@@ -1,5 +1,7 @@
 public interface TransactionInterface {
-
+    /**
+     * Gabby
+     */
     User getBuyer();
     void setBuyer(User buyer);
     User getSeller();
