@@ -1,3 +1,12 @@
+/**
+ * Unit tests for the Product class to verify that getters return the expected values
+ *
+ * <p>Purdue University -- CS18000 -- Spring 2025</p>
+ *
+ * @author Milica Slavkovic
+ * @version April 6, 2025
+ */
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
