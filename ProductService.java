@@ -1,53 +1,56 @@
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * This class managies a collection of products
+ * Thread-safe implementation of the IProductService interface.
+ * Manages a collection of products in memory.
  *
  * <p>Purdue University -- CS18000 -- Spring 2025</p>
- *
  * @author Milica Slavkovic
- * @version April 6, 2025
+ * @version April 12, 2025
  */
+public class ProductService implements IProductService {
+    private final Map<String, IProduct> products;
 
-public class ProductService {
-    private Map<String, Product> products; // A map to store products using productID as the key
-    
-// Constructor initializes the product map
     public ProductService() {
-        products = new HashMap<>();
+        products = new ConcurrentHashMap<>(); // Thread-safe map
     }
 
-// Add product
-    public void addProduct(String productID, String name, String description, double price, String category) {
-        Product product = new Product(productID, name, description, price, category);
-        products.put(productID, product); // Store the product with productID as the key
+    // Add product
+    @Override
+    public synchronized void addProduct(String productID, String name, String description, double price, String category) {
+        IProduct product = new Product(productID, name, description, price, category);
+        products.put(productID, product);
     }
 
-// Delete product
-    public void deleteProduct(String productID) {
+    // Delete product
+    @Override
+    public synchronized void deleteProduct(String productID) {
         products.remove(productID);
     }
 
-// Search products by category
-    public List<Product> searchByCategory(String category) {
-        List<Product> result = new ArrayList<>();
-        for (Product product : products.values()) {
-            if (product.getCategory().equals(category)) {
-                result.add(product); // Add matching products to the result list
+    // Search products by category
+    @Override
+    public List<IProduct> searchByCategory(String category) {
+        List<IProduct> result = new ArrayList<>();
+        for (IProduct product : products.values()) {
+            if (product.getCategory().equalsIgnoreCase(category)) {
+                result.add(product);
             }
         }
         return result;
     }
 
-// Search products by keyword
-    public List<Product> searchProducts(String keyword) {
-        List<Product> result = new ArrayList<>();
-        for (Product product : products.values()) {
-            if (product.getName().contains(keyword) || product.getDescription().contains(keyword)) {
-                result.add(product); // Add products that match the keyword
+    // Search products by keyword
+    @Override
+    public List<IProduct> searchProducts(String keyword) {
+        List<IProduct> result = new ArrayList<>();
+        for (IProduct product : products.values()) {
+            if (product.getName().toLowerCase().contains(keyword.toLowerCase()) ||
+                product.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                result.add(product);
             }
         }
         return result;
