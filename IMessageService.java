@@ -4,10 +4,10 @@ import java.util.ArrayList;
  * 
  * Purdue Unversity -- CS180 -- Spring 2025 -- Team Project 
  * @author Savir Patil
- * @version April 6, 2025
+ * @version April 18, 2025
  */
 public interface IMessageService {
-    void sendMessage(int senderId, int receiverId, String messageContent);
-    void deleteMessage(int messageId);
-    ArrayList<Message> getAllMessages(int userId);
+    void sendMessage(String senderId, String receiverId, String messageContent);
+    void deleteMessage(String messageId);
+    ArrayList<Message> getAllMessages(String userId);
 }
