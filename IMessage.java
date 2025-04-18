@@ -6,9 +6,9 @@
  * @version April 6, 2025
  */
 public interface IMessage {
-    int getMessageId();
-    int getSenderId();
-    int getReceiverId();
+    String getMessageId();
+    String getSenderId();
+    String getReceiverId();
     String getMessageContent();
     void setMessageContent(String messageContent);
 }
