@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  * @author Savir Patil
  * @version April 18, 2025
  */
-public class Message implements IMessage {
+public class Message implements IMessage, Serializable {
     // Uses ID values to track messages, as well as users that will see them and what content is in the messages.
     private static final long serialVersionUID = 1L;
     private String messageId;
