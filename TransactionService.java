@@ -1,22 +1,27 @@
-public class TransactionService extends Transaction implements TransactionServiceInterface{
-    /**
-     * Creates and handles transaction objects, while checking that the transaction involves
-     * two distinct user that have adequate balances
-     *
-     * <p>Purdue University -- CS18000 -- Spring 2025</p>
-     *
-     * @author Gabrielle Pesito
-     * @version April 20, 2025
-     */
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+/**
+ * Creates and handles transaction objects, while checking that the transaction involves
+ * two distinct user that have adequate balances
+ *
+ * <p>Purdue University -- CS18000 -- Spring 2025</p>
+ *
+ * @author Gabrielle Pesito
+ * @version April 20, 2025
+ */
+public class TransactionService extends Transaction implements TransactionServiceInterface {
+
     private User buyer;
     private User seller;
     private double amount;
+    
+    // === Phase 1 (unchanged) ===
 
     // Constructors
     public TransactionService(User buyer, User seller, double amount) {
         super(buyer, seller, amount);
     }
-
 
     // Getters and Setters
     public User getBuyer() {
@@ -60,7 +65,7 @@ public class TransactionService extends Transaction implements TransactionServic
         }
     }
 
-    //Checks if the sender/recipient are valid, and if balance is sufficent
+    //Checks if the sender/recipient are valid, and if balance is sufficient
     public boolean validateTransaction(User sender, User recipient, double amount) {
         if (sender == recipient) {
             System.out.println("Sender and recipient cannot be the same.");
@@ -84,5 +89,39 @@ public class TransactionService extends Transaction implements TransactionServic
     public boolean processTransaction(User sender, User recipient, double amount) {
         processPayment(sender, recipient, amount);
         return true;
+    }
+
+
+    // === Phase 2  ===
+
+    // Thread-safe storage of all transaction records
+    private static final List<Transaction> transactions = Collections.synchronizedList(new ArrayList<>());
+
+     //Creates a transaction using direct parameters
+
+    public String createTransaction(User buyer, User seller, double amount) {
+        if (!validateTransaction(buyer, seller, amount)) {
+            return "Transaction validation failed.";
+        }
+
+        Transaction newTransaction = new Transaction(buyer, seller, amount);
+        processTransaction(buyer, seller, amount);
+        transactions.add(newTransaction);
+        return "Transaction successful and recorded.";
+    }
+
+
+    public List<Transaction> getTransactionsForUser(String userId) {
+        List<Transaction> userTransactions = new ArrayList<>();
+
+        synchronized (transactions) {
+            for (Transaction t : transactions) {
+                if (t.getBuyer().getUserId().equals(userId) || t.getSeller().getUserId().equals(userId)) {
+                    userTransactions.add(t);
+                }
+            }
+        }
+
+        return userTransactions;
     }
 }
