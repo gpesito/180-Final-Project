@@ -12,10 +12,10 @@ import java.net.Socket;
 public class Client {
 
     private static final String SERVER_ADDRESS = "localhost";  // Server address
-    private static final int SERVER_PORT = 12345;  // Server port
+    private static final int SERVER_PORT = 4242;  // Server port
 
     public static void main(String[] args) {
-        try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+        try (Socket socket = new Socket(SERVER_ADDRESS, 4242);
              BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
