@@ -25,20 +25,20 @@ public class MessageService implements IMessageService {
     }
     // Deletes message from "storage" in our list.
     @Override
-    public void deleteMessage(int messageId) {
+    public void deleteMessage(String messageId) {
         for (int i = 0; i < messages.size(); i++) {
-            if (messages.get(i).getMessageId() == messageId) {
+            if (messages.get(i).getMessageId().equals(messageId)) {
                 messages.remove(i);
                 return;
             }
         }
     }
     // Uses a specific user's ID to access messages they have sent. 
-    public ArrayList<Message> getAllMessages(int userId) {
+    public ArrayList<Message> getAllMessages(String userId) {
         ArrayList<Message> userMessages = new ArrayList<>();
         synchronized (message) {
             for (Message message : messages) {
-                if (message.getSenderId() == userId || message.getReceiverId() == userId) {
+                if (message.getSenderId().equals(userId) || message.getReceiverId().equals(userId)) {
                     userMessages.add(message);
                 }
             }
