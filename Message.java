@@ -32,17 +32,17 @@ public class Message implements IMessage, Serializable {
     }
     // Provides get methods to return ID values.
     @Override
-    public int getMessageId() {
+    public String getMessageId() {
         return messageId;
     }
 
     @Override
-    public int getSenderId() {
+    public String getSenderId() {
         return senderId;
     }
 
     @Override
-    public int getReceiverId() {
+    public String getReceiverId() {
         return receiverId;
     }
 
