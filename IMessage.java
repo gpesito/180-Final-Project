@@ -9,6 +9,9 @@ public interface IMessage {
     String getMessageId();
     String getSenderId();
     String getReceiverId();
+    String getProductId();
     String getMessageContent();
     void setMessageContent(String messageContent);
+    String toString();
+    LocalDateTime getTimestamp();
 }
