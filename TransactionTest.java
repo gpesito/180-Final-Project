@@ -2,7 +2,12 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 /**
- * Gabby Pesito
+ * Tests expected outputs of each method in Transaction class
+ *
+ * <p>Purdue University -- CS18000 -- Spring 2025</p>
+ *
+ * @author Gabrielle Pesito
+ * @version April 20, 2025
  */
 public class TransactionTest {
 
@@ -10,11 +15,13 @@ public class TransactionTest {
     private User seller;
     private Transaction transaction;
 
+    //creates objects for testing
     public void setUp() {
         buyer = new User("1", "Buyer", "buyer@example.com", "password");
         seller = new User("2", "Seller", "seller@example.com", "password");
     }
 
+    //tests process payment
     public void testProcessPaymentSuccess() {
         double initialBuyerBalance = buyer.getBalance();
         double initialSellerBalance = seller.getBalance();
@@ -30,6 +37,7 @@ public class TransactionTest {
         assertEquals(initialSellerBalance + transactionAmount, seller.getBalance(), 0.01);
     }
 
+    //checks process payment in cases of insufficent funds
     public void testProcessPaymentFailureInsufficientFunds() {
         double initialBuyerBalance = buyer.getBalance();
         double initialSellerBalance = seller.getBalance();
@@ -45,6 +53,7 @@ public class TransactionTest {
         assertEquals(initialSellerBalance, seller.getBalance(), 0.01);
     }
 
+    //test getters and setters return the correct value
     public void testGetBuyer() {
         transaction = new Transaction(buyer, seller, 50.0);
         assertEquals(buyer, transaction.getBuyer());

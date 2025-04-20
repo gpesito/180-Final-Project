@@ -2,9 +2,15 @@ public class Transaction implements TransactionInterface {
     private User buyer;
     private User seller;
     private double amount;
-    /**
-     * Gabby Pesito
-     */
+/**
+ * Handles transactions between and buyer and seller user, 
+ * and approripately updates values of each user object
+ *
+ * <p>Purdue University -- CS18000 -- Spring 2025</p>
+ *
+ * @author Gabrielle Pesito
+ * @version April 20, 2025
+ */
 
     //Constructor
     public Transaction(User buyer, User seller, double amount) {

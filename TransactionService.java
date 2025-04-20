@@ -1,6 +1,12 @@
 public class TransactionService extends Transaction implements TransactionServiceInterface{
     /**
-     * Gabby Pesito
+     * Creates and handles transaction objects, while checking that the transaction involves
+     * two distinct user that have adequate balances
+     *
+     * <p>Purdue University -- CS18000 -- Spring 2025</p>
+     *
+     * @author Gabrielle Pesito
+     * @version April 20, 2025
      */
     private User buyer;
     private User seller;

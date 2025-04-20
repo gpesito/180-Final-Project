@@ -1,6 +1,11 @@
 public interface TransactionInterface {
     /**
-     * Gabby Pesito
+     * Decloares methods and parameters for Transaction class
+     *
+     * <p>Purdue University -- CS18000 -- Spring 2025</p>
+     *
+     * @author Gabrielle Pesito
+     * @version April 20, 2025
      */
     User getBuyer();
     void setBuyer(User buyer);
