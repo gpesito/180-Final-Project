@@ -1,5 +1,10 @@
 package server;
-import services.*; //imports our other service classes
+
+import services.UserService; //imports our other service classes
+import services.ProductService;//imports our other service classes
+import services.TransactionService; //imports our other service classes
+import services.MessageService; //imports our other service classes
+
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
@@ -15,11 +20,11 @@ import java.util.List;
 
 //Help handle user, product, transaction and messages
 public class MarketplaceServer implements IMarketplaceServer, Runnable {
-    public UserService users;
-    public ProductService products;
-    public TransactionService transactions;
-    public MessageService messages;
-    private Socket clientSocket;
+    private final UserService users;
+    private final ProductService products;
+    private final TransactionService transactions;
+    private final MessageService messages;
+    private final Socket clientSocket;
 
     public MarketplaceServer(Socket socket, UserService u, ProductService p, TransactionService t, MessageService m) {
         this.clientSocket = socket;
@@ -32,7 +37,7 @@ public class MarketplaceServer implements IMarketplaceServer, Runnable {
     //creates new user
     @Override
     public boolean registerUser(String username, String email, String password) {
-        return users.register(username, email, password);
+        return users.registerUser(new User(username, email, password));
     }
 
     @Override

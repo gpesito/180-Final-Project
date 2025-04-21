@@ -1,4 +1,7 @@
 package server;
+
+import java.util.List;
+
 /**
  * This is the interface for MarketplaceServer.java
  *
@@ -7,8 +10,7 @@ package server;
  * @author Jay Saini Purdue CS
  * @version April 6, 2025
  */
-import java.util.List;
-import models.Product;
+
 
 public interface IMarketplaceServer {
     boolean registerUser(String username, String email, String password);

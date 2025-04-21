@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 /**
  * Interface that defines the blueprint for a Message object and methods that are used to acces important fields.
  * 

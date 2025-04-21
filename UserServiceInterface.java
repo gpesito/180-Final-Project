@@ -9,6 +9,7 @@
 
 public interface UserServiceInterface {
     boolean registerUser(UserInterface user);
+    boolean loginUser(String username, String passowrd);
     boolean deleteUser(String userId);
     UserInterface getUserById(String userId);
 }

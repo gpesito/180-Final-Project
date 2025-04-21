@@ -14,8 +14,10 @@ public interface IClient {
 
     void sendCommand(String command) throws Exception;
 
+
     String readResponse() throws Exception;
 
 
     void disconnect() throws Exception;
 }
+

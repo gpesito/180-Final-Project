@@ -76,7 +76,7 @@ public class User implements UserInterface {
     }
     @Override
     public void logout() {
-        // Add logout logic if needed
+        // add logout logic if needed
     }
     @Override
     public void addFriend(UserInterface friend) {

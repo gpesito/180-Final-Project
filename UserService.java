@@ -16,12 +16,21 @@ public class UserService implements UserServiceInterface {
     @Override
     public boolean registerUser(UserInterface user) {
         if (users.containsKey(user.getUserId())) {
-            return false; // User already exists
+            return false;
         }
         users.put(user.getUserId(), user);
         return true;
     }
 
+    @Override
+    public boolean loginUser(String username, String password) {
+        for (UserInterface u : users.values()) {
+            if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public boolean deleteUser(String userId) {
         return users.remove(userId) != null;

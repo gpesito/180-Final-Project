@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @version April 18, 2025
  */
 public interface IMessageService {
-    void sendMessage(String senderId, String receiverId, String messageContent);
+    void sendMessage(String senderId, String receiverId, String messageContent, String productId);
     void deleteMessage(String messageId);
     ArrayList<Message> getAllMessages(String userId);
 }

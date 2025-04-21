@@ -28,7 +28,7 @@ public class Message implements IMessage, Serializable {
 
     // Constructor for message that does not use productId
     public Message(String messageId, String senderId, String receiverId, String content, LocalDateTime timestamp) {
-        this(messageId, senderId, receiverId, null, messageContent, timestamp);
+        this(messageId, senderId, receiverId, null, content, timestamp);
     }
     // Provides get methods to return ID values.
     @Override
@@ -55,6 +55,7 @@ public class Message implements IMessage, Serializable {
         return messageContent;
     }
 
+    @Override
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
