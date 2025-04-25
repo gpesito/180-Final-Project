@@ -1,63 +1,107 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.Socket;
 
 /**
- * The Client class is responsible for interacting with the server
- * It sends commands to the server and receives responses
- * It acts as the client-side application in a client-server architecture
+ * GUI version of the client to communicate with the server
  *
  * <p>Purdue University -- CS18000 -- Spring 2025</p>
  * @author Milica Slavkovic
- * @version April 20, 2025
+ * @version April 25, 2025
  */
 
 public class Client {
-    public static void main(String[] args) {
-        try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
-            // Prompt for server address and port
-            System.out.print("Enter server address (e.g., localhost): ");
-            String serverAddress = consoleReader.readLine();
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
 
-            System.out.print("Enter server port (e.g., 4242): ");
-            int serverPort = Integer.parseInt(consoleReader.readLine());
+    private JFrame frame;
+    private JTextField commandField;
+    private JTextArea outputArea;
 
-            try (Socket socket = new Socket(serverAddress, serverPort);
-                 BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
-                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
-                System.out.println("Connected to the server.");
-                String userCommand;
-
-                // Continuously read user input and send it to the server
-                while (true) {
-                    System.out.println("Enter a command (ADD, DELETE, SEARCH_CATEGORY, SEARCH_KEYWORD, EXIT): ");
-                    userCommand = userInput.readLine();
-
-                    if (userCommand != null) {
-                        out.println(userCommand);  // Send the command to the server
-
-                        if (userCommand.equalsIgnoreCase("EXIT")) {
-                            System.out.println("Exiting...");
-                            break;
-                        }
-
-                        // Read and print the server's response
-                        String serverResponse;
-                        while ((serverResponse = in.readLine()) != null) {
-                            System.out.println(serverResponse);
-                            // Stop if response ends (optional: can set end marker from server if needed)
-                            if (serverResponse.isEmpty()) break;
-                        }
-                    }
-                }
-
-            } catch (IOException e) {
-                System.err.println("Connection failed: " + e.getMessage());
-            }
-
-        } catch (IOException | NumberFormatException e) {
-            System.err.println("Invalid input: " + e.getMessage());
+    public Client(String serverAddress, int serverPort) {
+        try {
+            socket = new Socket(serverAddress, serverPort);
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            createAndShowGUI();
+        } catch (IOException e) {
+            showError("Failed to connect to server: " + e.getMessage());
         }
     }
+
+    private void createAndShowGUI() {
+        frame = new JFrame("Product Client GUI");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 400);
+
+        commandField = new JTextField();
+        JButton sendButton = new JButton("Send");
+        outputArea = new JTextArea();
+        outputArea.setEditable(false);
+
+        sendButton.addActionListener(this::handleSend);
+
+        JPanel inputPanel = new JPanel(new BorderLayout());
+        inputPanel.add(commandField, BorderLayout.CENTER);
+        inputPanel.add(sendButton, BorderLayout.EAST);
+
+        frame.getContentPane().add(inputPanel, BorderLayout.NORTH);
+        frame.getContentPane().add(new JScrollPane(outputArea), BorderLayout.CENTER);
+
+        frame.setVisible(true);
+    }
+
+    private void handleSend(ActionEvent event) {
+        String command = commandField.getText().trim();
+        if (command.isEmpty()) return;
+
+        out.println(command);
+
+        if (command.equalsIgnoreCase("EXIT")) {
+            try {
+                socket.close();
+                frame.dispose();
+            } catch (IOException e) {
+                showError("Error while closing connection.");
+            }
+            return;
+        }
+
+        try {
+            String response;
+            outputArea.append("> " + command + "\n");
+            while ((response = in.readLine()) != null) {
+                outputArea.append(response + "\n");
+                if (response.isEmpty()) break;
+            }
+            outputArea.append("\n");
+        } catch (IOException e) {
+            showError("Error reading response: " + e.getMessage());
+        }
+
+        commandField.setText("");
+    }
+
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        if (frame != null) frame.dispose();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            String address = JOptionPane.showInputDialog("Enter server address (e.g., localhost):");
+            String portStr = JOptionPane.showInputDialog("Enter server port (e.g., 4242):");
+
+            try {
+                int port = Integer.parseInt(portStr);
+                new Client(address, port);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid port number.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+    }
 }
+
