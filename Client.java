@@ -31,7 +31,8 @@ public class Client {
             showError("Failed to connect to server: " + e.getMessage());
         }
     }
-
+    
+    // Sets up the JFrame and its components
     private void createAndShowGUI() {
         frame = new JFrame("Product Client GUI");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,10 +41,11 @@ public class Client {
         commandField = new JTextField();
         JButton sendButton = new JButton("Send");
         outputArea = new JTextArea();
-        outputArea.setEditable(false);
+        outputArea.setEditable(false); // Read-only text area
 
-        sendButton.addActionListener(this::handleSend);
+        sendButton.addActionListener(this::handleSend); // Send command on click
 
+        // Layout panel for input field and send button
         JPanel inputPanel = new JPanel(new BorderLayout());
         inputPanel.add(commandField, BorderLayout.CENTER);
         inputPanel.add(sendButton, BorderLayout.EAST);
@@ -51,15 +53,17 @@ public class Client {
         frame.getContentPane().add(inputPanel, BorderLayout.NORTH);
         frame.getContentPane().add(new JScrollPane(outputArea), BorderLayout.CENTER);
 
-        frame.setVisible(true);
+        frame.setVisible(true); // Shows window
     }
-
+    
+    // Called when the Send button is clicked
     private void handleSend(ActionEvent event) {
         String command = commandField.getText().trim();
         if (command.isEmpty()) return;
 
         out.println(command);
-
+        
+        // If the user typed "EXIT", close everything and quit
         if (command.equalsIgnoreCase("EXIT")) {
             try {
                 socket.close();
@@ -71,11 +75,12 @@ public class Client {
         }
 
         try {
+            // After reading server response, displays it in the output area
             String response;
-            outputArea.append("> " + command + "\n");
+            outputArea.append("> " + command + "\n"); // Echo command
             while ((response = in.readLine()) != null) {
                 outputArea.append(response + "\n");
-                if (response.isEmpty()) break;
+                if (response.isEmpty()) break; // GUI expects empty line to signal end
             }
             outputArea.append("\n");
         } catch (IOException e) {
@@ -84,7 +89,8 @@ public class Client {
 
         commandField.setText("");
     }
-
+    
+    // Method that shows an error dialog and close the app
     private void showError(String message) {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
         if (frame != null) frame.dispose();
@@ -97,7 +103,7 @@ public class Client {
 
             try {
                 int port = Integer.parseInt(portStr);
-                new Client(address, port);
+                new Client(address, port); // Launchs GUI with given server information
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Invalid port number.", "Error", JOptionPane.ERROR_MESSAGE);
             }
