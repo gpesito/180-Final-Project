@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 /**
  * Class that allows user to send, delete, or view alll messages by a specific user.
  * 
- * Purdue Unversity -- CS180 -- Spring 2025 -- Team Project 
+ * Purdue University -- CS180 -- Spring 2025 -- Team Project 
  * @author Savir Patil
- * @version April 18, 2025
+ * @version April 28, 2025
  */
 public class MessageService implements IMessageService {
     private final ArrayList<Message> messages;
@@ -17,11 +17,12 @@ public class MessageService implements IMessageService {
         this.messages = Collections.synchronizedList(new ArrayList<>());
         this.messageCount = 0;
     }
+    
     // Sends new message and adds message to list that contains all messages.
     @Override
     public void sendMessage(String senderId, String receiverId, String messageContent, String productId) {
         String id = String.valueOf(messageCount++);
-        Message message = new Message(id, senderId, receiverId, messageContent, LocalDateTime.now());
+        Message message = new Message(id, senderId, receiverId, productId, messageContent, LocalDateTime.now());
         messages.add(message);
     }
     // Deletes message from "storage" in our list.
