@@ -3,9 +3,9 @@ import java.time.LocalDateTime;
 /**
  * Class that defines features and methods of a Message object that can be sent by users to one another.
  * 
- * Purdue Unversity -- CS180 -- Spring 2025 -- Team Project 
+ * Purdue University -- CS180 -- Spring 2025 -- Team Project 
  * @author Savir Patil
- * @version April 18, 2025
+ * @version April 28, 2025
  */
 public class Message implements IMessage, Serializable {
     // Uses ID values to track messages, as well as users that will see them and what content is in the messages.
