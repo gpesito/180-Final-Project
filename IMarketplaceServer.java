@@ -19,4 +19,7 @@ public interface IMarketplaceServer {
     List<Product> searchProducts(String keyword);
     boolean createTransaction(int buyerId, int productId);
     boolean sendMessage(int senderId, int receiverId, String content);
+
+    //this helps for socket handling
+    void run(); 
 }
