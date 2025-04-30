@@ -10,16 +10,16 @@ import java.io.IOException;
 
 public interface IClient {
 
-
+    //connects server
     void connect(String serverAddress, int serverPort) throws IOException;
 
-
+    //sends command  string to server
     void sendCommand(String command) throws IOException;
 
-
+    //reads responses from server
     String readResponse() throws IOException;
 
-
+    //disconnects from server
     void disconnect() throws IOException;
 
 
