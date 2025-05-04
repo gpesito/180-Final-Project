@@ -101,6 +101,9 @@ public class Client {
             String address = JOptionPane.showInputDialog("Enter server address (e.g., localhost):");
             String portStr = JOptionPane.showInputDialog("Enter server port (e.g., 4242):");
 
+            //Launch transaction
+            Transaction.launchTransactionGUI();
+
             try {
                 int port = Integer.parseInt(portStr);
                 new Client(address, port); // Launchs GUI with given server information
