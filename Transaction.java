@@ -1,14 +1,17 @@
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import javax.swing.*;
+
 /**
  * Handles transactions between a buyer and seller user,
  * and appropriately updates values of each user object
  *
  * <p>Purdue University -- CS18000 -- Spring 2025</p>
  * @author Gabrielle Pesito
- * @version April 20, 2025
+ * @version May 3, 2025
  */
+
 public class Transaction implements TransactionInterface, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -112,6 +115,48 @@ public class Transaction implements TransactionInterface, Serializable {
             System.out.println("Transaction successful");
         } else {
             System.out.println("Transaction failed. Insufficient balance.");
+        }
+    }
+
+    public static void launchTransactionGUI() {
+        try {
+            //user prompt for ID
+            String role = javax.swing.JOptionPane.showInputDialog("Are you the Buyer or the Seller?").trim().toLowerCase();
+            String userId = javax.swing.JOptionPane.showInputDialog("Enter your User ID: ");
+
+            //Fetch users from user class
+            UserInterface activeUser = UserService.getUserById(userId);
+
+            //get second party user
+            String secondParty = javax.swing.JOptionPane.showInputDialog("Enter the other party's User ID: ");
+            UserInterface counterParty = UserService.getUserById(secondParty);
+
+            //prompt for transaction amount
+            double amount = Double.parseDouble(javax.swing.JOptionPane.showInputDialog("Enter Transaction Amount: "));
+
+            UserInterface buyer;
+            UserInterface seller;
+
+            //assign buyer and user roles based on prompts
+            if (role.equals("buyer")) {
+                buyer = activeUser;
+                seller = counterParty;
+            } else if (role.equals("seller")) {
+                seller = activeUser;
+                buyer = counterParty;
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null,"Invalid Role!");
+                return;
+            }
+
+            //casted userinterface objects to user
+            Transaction transaction = new Transaction((User) buyer, (User) seller, amount);
+            //complete transaction
+            transaction.processPayment((User) buyer, (User) seller, amount);
+            javax.swing.JOptionPane.showMessageDialog(null,"Transaction Complete!");
+
+        } catch (Exception e ) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
 }
