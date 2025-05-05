@@ -1,9 +1,11 @@
 package server;
 
-import services.UserService; //imports our other service classes
-import services.ProductService; //imports our other service classes
-import services.TransactionService; //imports our other service classes
-import services.MessageService; //imports our other service classes
+import services.UserService;
+import services.ProductService;
+import services.TransactionService;
+import services.MessageService;
+import models.User;
+import models.Product;
 
 import java.io.*;
 import java.net.Socket;
@@ -15,10 +17,10 @@ import java.util.List;
  * <p>Purdue University -- CS18000 -- Spring 2025 -- Team Project
  *
  * @author Jay Saini Purdue CS
- * @version April 30, 2025
+ * @version May 4, 2025
  */
 
-//Help handle user, product, transaction and messages
+//Help handle user, product, transaction, and messages
 public class MarketplaceServer implements IMarketplaceServer, Runnable {
     private final UserService users;
     private final ProductService products;
@@ -65,65 +67,65 @@ public class MarketplaceServer implements IMarketplaceServer, Runnable {
         return messages.sendMessage(senderId, receiverId, content);
     }
 
-    
     @Override
     public void run() {
-        try ( 
-                BufferedReader in = new BufferedReader(
-                    new InputStreamReader(
-                        clientSocket.getInputStream()
-                    )
-                );
-                PrintWriter out = new PrintWriter(
-                    clientSocket.getOutputStream(), 
-                    true
-                )
+        try (
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)
         ) {
-          
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                String[] tokens = inputLine.split(" ");
+                String[] tokens = inputLine.split(" ", 2);
                 String command = tokens[0].toUpperCase();
 
                 switch (command) {
-                    case "REGISTER":
-                        out.println(registerUser(tokens[1], tokens[2], tokens[3]));
+                    case "REGISTER": {
+                        String[] args = tokens[1].split(" ");
+                        out.println(registerUser(args[0], args[1], args[2]));
                         break;
-                    case "LOGIN":
-                        out.println(loginUser(tokens[1], tokens[2]));
+                    }
+                    case "LOGIN": {
+                        String[] args = tokens[1].split(" ");
+                        out.println(loginUser(args[0], args[1]));
                         break;
-                    case "ADD":
-                        out.println(
-                            addProduct(
-                                tokens[1], 
-                                Double.parseDouble(tokens[2]), 
-                                tokens[3], 
-                                Integer.parseInt(tokens[4])
-                            )
-                        );
+                    }
+                    case "ADD": {
+                        String[] args = tokens[1].split(" ", 4);
+                        String name = args[0];
+                        double price = Double.parseDouble(args[1]);
+                        String description = args[2];
+                        int sellerId = Integer.parseInt(args[3]);
+                        out.println(addProduct(name, price, description, sellerId));
                         break;
+                    }
                     case "SEARCH":
                         for (Product p : searchProducts(tokens[1])) {
                             out.println(p.toString());
                         }
                         break;
-                    case "TRANSACT":
-                        out.println(createTransaction(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])));
+                    case "TRANSACT": {
+                        String[] args = tokens[1].split(" ");
+                        out.println(createTransaction(Integer.parseInt(args[0]), Integer.parseInt(args[1])));
                         break;
-                    case "MESSAGE":
-                        out.println(sendMessage(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), tokens[3]));
+                    }
+                    case "MESSAGE": {
+                        String[] args = tokens[1].split(" ", 3);
+                        int senderId = Integer.parseInt(args[0]);
+                        int receiverId = Integer.parseInt(args[1]);
+                        String content = args[2];
+                        out.println(sendMessage(senderId, receiverId, content));
                         break;
+                    }
                     case "EXIT":
                         out.println("Bye!");
                         return;
                     default:
                         out.println("Unknown command.");
                 }
-                out.println(); 
+                out.println(); // signal end of response
             }
-
-        } catch (IOException | NumberFormatException e) {
-            System.err.println("Error handling client: " + e.getMessage());
+        } catch (IOException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            System.err.println("Error: " + e.getMessage());
         }
     }
 }
