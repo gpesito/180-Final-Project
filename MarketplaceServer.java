@@ -1,12 +1,15 @@
-package server;
+/**
+    package server;
 
-import services.UserService;
-import services.ProductService;
-import services.TransactionService;
-import services.MessageService;
-import models.User;
-import models.Product;
+    import services.UserService;
+    import services.ProductService;
+    import services.TransactionService;
+    import services.MessageService;
+    import models.User;
+    import models.Product;
 
+
+ */
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
@@ -38,8 +41,8 @@ public class MarketplaceServer implements IMarketplaceServer, Runnable {
 
     //creates new user
     @Override
-    public boolean registerUser(String username, String email, String password) {
-        return users.registerUser(new User(username, email, password));
+    public boolean registerUser(String userId, String username, String email, String password) {
+        return users.registerUser(new User(userId, username, email, password));
     }
 
     @Override
@@ -48,8 +51,15 @@ public class MarketplaceServer implements IMarketplaceServer, Runnable {
     }
 
     @Override
-    public boolean addProduct(String name, double price, String description, int sellerId) {
-        return products.addProduct(name, price, description, sellerId);
+    public Object addProduct(String productID, String name, String description, double price, String category) {
+        //String productID, String name, String description, double price, String category
+        try {
+            products.addProduct(productID, name, description, price, category);
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
+        
     }
 
     @Override
@@ -58,13 +68,19 @@ public class MarketplaceServer implements IMarketplaceServer, Runnable {
     }
 
     @Override
-    public boolean createTransaction(int buyerId, int productId) {
-        return transactions.processTransaction(buyerId, productId);
+    public boolean createTransaction(User buyer, User seller, double amount) {
+        return transactions.processTransaction(buyer, seller, amount);
     }
 
     @Override
-    public boolean sendMessage(int senderId, int receiverId, String content) {
-        return messages.sendMessage(senderId, receiverId, content);
+    public boolean sendMessage(String senderId, String receiverId, String content, String productID) {
+        //String senderId, String receiverId, String messageContent, String productId
+        try {
+            messages.sendMessage(senderId, receiverId, content, productID);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
@@ -81,7 +97,7 @@ public class MarketplaceServer implements IMarketplaceServer, Runnable {
                 switch (command) {
                     case "REGISTER": {
                         String[] args = tokens[1].split(" ");
-                        out.println(registerUser(args[0], args[1], args[2]));
+                        out.println(registerUser(args[0], args[1], args[2], args[3]));
                         break;
                     }
                     case "LOGIN": {
@@ -95,7 +111,10 @@ public class MarketplaceServer implements IMarketplaceServer, Runnable {
                         double price = Double.parseDouble(args[1]);
                         String description = args[2];
                         int sellerId = Integer.parseInt(args[3]);
-                        out.println(addProduct(name, price, description, sellerId));
+                        String productID = args[4];
+                        String category = args[5];
+                        out.println(addProduct(productID, name, description, price, category));
+                        //String productID, String name, String description, double price, String category
                         break;
                     }
                     case "SEARCH":
@@ -105,7 +124,7 @@ public class MarketplaceServer implements IMarketplaceServer, Runnable {
                         break;
                     case "TRANSACT": {
                         String[] args = tokens[1].split(" ");
-                        out.println(createTransaction(Integer.parseInt(args[0]), Integer.parseInt(args[1])));
+                        out.println(createTransaction((User) UserService.getUserById((String) inputLine),(User) UserService.getUserById((String) args[3]), (double) Double.parseDouble(args[1]) ));
                         break;
                     }
                     case "MESSAGE": {
@@ -113,7 +132,8 @@ public class MarketplaceServer implements IMarketplaceServer, Runnable {
                         int senderId = Integer.parseInt(args[0]);
                         int receiverId = Integer.parseInt(args[1]);
                         String content = args[2];
-                        out.println(sendMessage(senderId, receiverId, content));
+                        out.println(sendMessage(String.valueOf(senderId), String.valueOf(receiverId), content, args[4]));
+
                         break;
                     }
                     case "EXIT":

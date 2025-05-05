@@ -33,7 +33,7 @@ public class ProductService implements IProductService {
 
     // Search products by category
     @Override
-    public List<Product> searchByCategory(String category) {
+    public List searchByCategory(String category) {
         List<Product> result = new ArrayList<>();
         for (IProduct product : products.values()) {
             if (product.getCategory().equalsIgnoreCase(category)) {
@@ -45,7 +45,7 @@ public class ProductService implements IProductService {
 
     // Search products by keyword
     @Override
-    public List<Product> searchProducts(String keyword) {
+    public List searchProducts(String keyword) {
         List<Product> result = new ArrayList<>();
         for (IProduct product : products.values()) {
             if (product.getName().toLowerCase().contains(keyword.toLowerCase()) ||

@@ -1,4 +1,4 @@
-package server;
+//package server;
 
 import java.util.List;
 
@@ -13,12 +13,12 @@ import java.util.List;
 
 
 public interface IMarketplaceServer {
-    boolean registerUser(String username, String email, String password);
+    boolean registerUser(String userId, String username, String email, String password);
     boolean loginUser(String username, String password);
-    boolean addProduct(String name, double price, String description, int sellerId);
+    Object addProduct(String productID, String name, String description, double price, String category);
     List<Product> searchProducts(String keyword);
-    boolean createTransaction(int buyerId, int productId);
-    boolean sendMessage(int senderId, int receiverId, String content);
+    boolean createTransaction(User buyer, User seller, double amount);
+    boolean sendMessage(String senderId, String receiverId, String content, String productID);
 
     //this helps for socket handling
     void run(); 

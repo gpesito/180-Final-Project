@@ -37,8 +37,13 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public UserInterface getUserById(String userId) {
+    public static UserInterface getUserById(String userId) {
         return users.get(userId);
+    }
+
+    public boolean login(String username, String password) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'login'");
     }
 }
 

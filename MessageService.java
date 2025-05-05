@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.time.LocalDateTime;
 /**
  * Class that allows user to send, delete, or view alll messages by a specific user.
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
  * @version April 28, 2025
  */
 public class MessageService implements IMessageService {
-    private final ArrayList<Message> messages;
+    private final List<Object> messages;
     private int messageCount;
     
 
@@ -29,7 +30,7 @@ public class MessageService implements IMessageService {
     @Override
     public void deleteMessage(String messageId) {
         for (int i = 0; i < messages.size(); i++) {
-            if (messages.get(i).getMessageId().equals(messageId)) {
+            if (((Message) messages.get(i)).getMessageId().equals(messageId)) {
                 messages.remove(i);
                 return;
             }
@@ -39,9 +40,9 @@ public class MessageService implements IMessageService {
     public ArrayList<Message> getAllMessages(String userId) {
         ArrayList<Message> userMessages = new ArrayList<>();
         synchronized (messages) {
-            for (Message message : messages) {
-                if (message.getSenderId().equals(userId) || message.getReceiverId().equals(userId)) {
-                    userMessages.add(message);
+            for (Object message : messages) {
+                if (((Message) message).getSenderId().equals(userId) || ((Message) message).getReceiverId().equals(userId)) {
+                    userMessages.add((Message) message);
                 }
             }
         }
