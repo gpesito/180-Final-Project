@@ -118,6 +118,7 @@ public class Transaction implements TransactionInterface, Serializable {
         }
     }
 
+    //From previous phases
     public static void launchTransactionGUI() {
         try {
             //user prompt for ID
