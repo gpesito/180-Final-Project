@@ -17,5 +17,5 @@ public interface TransactionServiceInterface {
     
     // === Phase 2  ===
     String createTransaction(User buyer, User seller, double amount); 
-    List<Transaction> getTransactionsForUser(String userId); 
+    String getTransactionsForUser(String userId); 
 }

@@ -124,7 +124,7 @@ public class MarketplaceServer implements IMarketplaceServer, Runnable {
                         break;
                     case "TRANSACT": {
                         String[] args = tokens[1].split(" ");
-                        out.println(createTransaction((User) UserService.getUserById((String) inputLine),(User) UserService.getUserById((String) args[3]), (double) Double.parseDouble(args[1]) ));
+                        out.println(createTransaction((User) UserService.getUserById((String) inputLine),(User) UserService.getUserById((String) args[3]), (double) Double.parseDouble(args[1])));
                         break;
                     }
                     case "MESSAGE": {

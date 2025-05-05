@@ -111,17 +111,17 @@ public class TransactionService extends Transaction implements TransactionServic
     }
 
 
-    public List<Transaction> getTransactionsForUser(String userId) {
-        List<Transaction> userTransactions = new ArrayList<>();
-
+    public String getTransactionsForUser(String userId) {
+        String result = "";
+    
         synchronized (transactions) {
             for (Transaction t : transactions) {
                 if (t.getBuyer().getUserId().equals(userId) || t.getSeller().getUserId().equals(userId)) {
-                    userTransactions.add(t);
+                    result += t.toString() + "\n";
                 }
             }
         }
-
-        return userTransactions;
-    }
+    
+        return result;
+    }    
 }

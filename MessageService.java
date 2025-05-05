@@ -36,16 +36,21 @@ public class MessageService implements IMessageService {
             }
         }
     }
-    // Uses a specific user's ID to access messages they have sent. 
-    public ArrayList<Message> getAllMessages(String userId) {
-        ArrayList<Message> userMessages = new ArrayList<>();
+
+    public String getAllMessages(String userId) {
+        String result = "";
         synchronized (messages) {
-            for (Object message : messages) {
-                if (((Message) message).getSenderId().equals(userId) || ((Message) message).getReceiverId().equals(userId)) {
-                    userMessages.add((Message) message);
+            for (Object obj : messages) {
+                Message message = (Message) obj;
+                if (message.getSenderId().equals(userId) || message.getReceiverId().equals(userId)) {
+                    result += "[" + message.getSenderId() + " → " + message.getReceiverId() + "] "
+                            + message.getMessageContent() + "\n";
                 }
             }
         }
-        return userMessages;
+        return result;
     }
+    
+    
+    
 }

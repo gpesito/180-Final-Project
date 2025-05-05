@@ -98,7 +98,8 @@ public class AuctionApp {
             String password = new String(regPass.getPassword());
 
             User newUser = new User(userId, username, email, password);
-            UserService.registerUser(newUser);
+            UserService userService = new UserService();
+            userService.registerUser(newUser);
 
             sendCommand("REGISTER " + userId + " " + username + " " + email + " " + password, frame, currentUser);
             JOptionPane.showMessageDialog(frame, "New user registered!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -163,6 +164,8 @@ public class AuctionApp {
         searchBtn.addActionListener(e -> {
             String keyword = keywordField.getText();
             ProductService newService = new ProductService();
+
+            //Displays search results
             List<Product> products = (List<Product>) newService.searchProducts(keyword);
             String output = "";
             for (Product p : products) {
@@ -188,7 +191,7 @@ public class AuctionApp {
         msgPanel.add(sendMsgPanel, BorderLayout.NORTH);
 
         JTextArea msgArea = new JTextArea(10, 70);
-        msgArea.setEditable(false);
+        msgArea.setEditable(true);
         JButton refreshBtn = new JButton("Refresh Inbox");
         msgPanel.add(new JScrollPane(msgArea), BorderLayout.CENTER);
         msgPanel.add(refreshBtn, BorderLayout.SOUTH);
@@ -207,7 +210,13 @@ public class AuctionApp {
         });
 
         refreshBtn.addActionListener(e -> {
-            sendCommand("GET_MESSAGES " + currentUser[0].getUserId(), frame, msgArea);
+            String receiverId = toField.getText();
+            MessageService newMessageService = new MessageService();
+
+            //displays a users messages
+            JTextArea jTextArea = new JTextArea();
+            jTextArea.setText(newMessageService.getAllMessages(receiverId)); 
+            
         });
 
         tabs.add("Messaging", msgPanel);
@@ -224,12 +233,13 @@ public class AuctionApp {
         txPanel.add(createTxPanel, BorderLayout.NORTH);
 
         JTextArea txList = new JTextArea(10, 70);
-        txList.setEditable(false);
+        txList.setEditable(true);
         JButton loadTxBtn = new JButton("View My Transactions");
         txPanel.add(new JScrollPane(txList), BorderLayout.CENTER);
         txPanel.add(loadTxBtn, BorderLayout.SOUTH);
 
-        createTxBtn.addActionListener(e -> {
+        JButton jButton = new JButton();
+        jButton.addActionListener(e -> {
             String buyerId = currentUser[0].getUserId();
             String sellerIdText = sellerId.getText();
 
@@ -241,6 +251,7 @@ public class AuctionApp {
                 return;
             }
 
+            UserService UserService = new UserService();
             Transaction newTransaction = new Transaction((User) UserService.getUserById(buyerId), (User) UserService.getUserById(sellerIdText), amount);
             TransactionService transactionService = new TransactionService(null, null, 0);
             transactionService.validateTransaction((User) UserService.getUserById(buyerId), (User) UserService.getUserById(sellerIdText), amount);
@@ -250,7 +261,19 @@ public class AuctionApp {
         });
 
         loadTxBtn.addActionListener(e -> {
+            String buyerId = currentUser[0].getUserId();
+            String sellerIdText = sellerId.getText();
+
+            UserService UService = new UserService();
+            User buyer = (User) UService.getUserById(buyerId);
+            User seller = (User) UService.getUserById(sellerIdText);
+            double amount = (double) Double.parseDouble(amountField.getText());
+
+            //display transactions for a user
             sendCommand("GET_TRANSACTIONS " + currentUser[0].getUserId(), frame, txList);
+            JTextArea jTextArea2 = new JTextArea();
+            TransactionService newTService = new TransactionService(buyer, seller, amount);
+            jTextArea2.setText(newTService.getTransactionsForUser(buyerId)); 
         });
 
         tabs.add("Transactions", txPanel);

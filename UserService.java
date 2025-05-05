@@ -14,7 +14,7 @@ public class UserService implements UserServiceInterface {
     private Map<String, UserInterface> users = new ConcurrentHashMap<>();
 
     @Override
-    public static boolean registerUser(UserInterface user) {
+    public boolean registerUser(UserInterface user) {
         if (users.containsKey(user.getUserId())) {
             return false;
         }

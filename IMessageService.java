@@ -9,5 +9,5 @@ import java.util.ArrayList;
 public interface IMessageService {
     void sendMessage(String senderId, String receiverId, String messageContent, String productId);
     void deleteMessage(String messageId);
-    ArrayList<Message> getAllMessages(String userId);
+    String getAllMessages(String userId);
 }

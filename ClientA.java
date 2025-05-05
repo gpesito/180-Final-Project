@@ -3,10 +3,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.Socket;
-// Client Class from Phases 1-2
+
 /**
  * GUI version of the client to communicate with the server
- *
+ * LEGACY CLASS FROM PHASES 1/2
  * <p>Purdue University -- CS18000 -- Spring 2025</p>
  * @author Milica Slavkovic
  * @version April 25, 2025
